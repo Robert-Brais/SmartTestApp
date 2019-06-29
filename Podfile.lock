@@ -1,0 +1,16 @@
+PODS:
+  - SMART (4.0.0)
+
+DEPENDENCIES:
+  - SMART (~> 4.0)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - SMART
+
+SPEC CHECKSUMS:
+  SMART: 223960c033d1195488fc6dd30fe3da334c60f8bc
+
+PODFILE CHECKSUM: 5212d5ed81b005cbe46a3dbd5be272b315ed5227
+
+COCOAPODS: 1.5.3
