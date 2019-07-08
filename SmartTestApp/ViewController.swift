@@ -17,10 +17,10 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
         // create the client
         let smart = Client(
-            baseURL: URL(string: "https://fhir-api-dstu2.smarthealthit.org")!,
+            baseURL: URL(string: "https://mirrorfhirapi.azurehealthcareapis.com")!,
             settings: [
-                //"client_id": "my_mobile_app",       // if you have one
-                "redirect": "smartapp://callback",    // must be registered
+                "client_id": "b23f9393-f4d1-436b-87dc-764712df6e30",       // if you have one
+                "redirect": "https://mirrorfhirapi.azurehealthcareapis.com/AadSmartOnFhirProxy/callback/aHR0cHM6Ly9sb2NhbGhvc3Q6NTAwMS9zYW1wbGVhcHAvaW5kZXguaHRtbA",    // must be registered
             ]
         )
         
