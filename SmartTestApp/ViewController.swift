@@ -17,10 +17,13 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
         // create the client
         let smart = Client(
-            baseURL: URL(string: "https://mirrorfhirapi.azurehealthcareapis.com")!,
+            baseURL: URL(string: "https://mirrorfhirservice.azurewebsites.net")!,
             settings: [
-                "client_id": "b23f9393-f4d1-436b-87dc-764712df6e30",       // if you have one
-                "redirect": "https://mirrorfhirapi.azurehealthcareapis.com/AadSmartOnFhirProxy/callback/aHR0cHM6Ly9sb2NhbGhvc3Q6NTAwMS9zYW1wbGVhcHAvaW5kZXguaHRtbA",    // must be registered
+                "client_id": "38e2e19a-a5d6-4d04-b482-c838ffda8148",
+                "authorize_uri": "https://mirrorfhirservice.azurewebsites.net/AadSmartOnFhirProxy/authorize",
+                "token_uri": "https://mirrorfhirservice.azurewebsites.net/AadSmartOnFhirProxy/token",
+                "authorize_type": "authorization_code",
+                "redirect": "mirrorfhirapp://callback"
             ]
         )
         
