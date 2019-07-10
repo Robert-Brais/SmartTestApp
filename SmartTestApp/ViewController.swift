@@ -23,7 +23,7 @@ class ViewController: UIViewController {
                 "authorize_uri": "https://mirrorfhirservice.azurewebsites.net/AadSmartOnFhirProxy/authorize",
                 "token_uri": "https://mirrorfhirservice.azurewebsites.net/AadSmartOnFhirProxy/token",
                 "authorize_type": "authorization_code",
-                "redirect": "mirrorfhirapp://callback"
+                "redirect": "customurlscheme://callback"
             ]
         )
         
