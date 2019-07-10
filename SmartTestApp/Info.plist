@@ -26,6 +26,7 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>customurlscheme://callback</string>
+				<string></string>
 			</array>
 		</dict>
 	</array>
