@@ -28,6 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
+        window?.makeKeyAndVisible()
         // authorize, then search for prescriptions
         smart.authorize() { patient, error in
             if nil != error || nil == patient {
