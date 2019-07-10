@@ -7,16 +7,59 @@
 //
 
 import UIKit
+import SMART
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
+    // create the client
+    let smart = Client(
+        baseURL: URL(string: "https://mirrorfhirservice.azurewebsites.net")!,
+        settings: [
+            "client_id": "38e2e19a-a5d6-4d04-b482-c838ffda8148",
+            "authorize_uri": "https://mirrorfhirservice.azurewebsites.net/AadSmartOnFhirProxy/authorize",
+            "token_uri": "https://mirrorfhirservice.azurewebsites.net/AadSmartOnFhirProxy/token",
+            "authorize_type": "authorization_code",
+            "redirect": "customurlscheme://callback"
+        ]
+    )
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        // authorize, then search for prescriptions
+        smart.authorize() { patient, error in
+            if nil != error || nil == patient {
+                // report error
+            }
+            else {
+                MedicationRequest.search(["patient": patient!.id])
+                    .perform(self.smart.server) { bundle, error in
+                        if nil != error {
+                            // report error
+                        }
+                        else {
+                            var meds = bundle?.entry?
+                                .filter() { return $0.resource is MedicationRequest }
+                                .map() { return $0.resource as! MedicationRequest }
+                            
+                            // now `meds` holds all the patient's orders (or is nil)
+                        }
+                }
+            }
+        }
         return true
+    }
+    
+    func application(_ app: UIApplication, open url: URL,
+                     options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
+        
+        // "smart" is your SMART `Client` instance
+        if smart.awaitingAuthCallback {
+            return smart.didRedirect(to: url)
+        }
+        return false
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
