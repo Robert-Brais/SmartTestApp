@@ -22,7 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             "authorize_uri": "https://mirrorfhirservice.azurewebsites.net/AadSmartOnFhirProxy/authorize",
             "token_uri": "https://mirrorfhirservice.azurewebsites.net/AadSmartOnFhirProxy/token",
             "authorize_type": "authorization_code",
-            "redirect": "customurlscheme://callback"
+            "redirect": "smartapp://callback"
         ]
     )
     
@@ -30,24 +30,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window?.makeKeyAndVisible()
         // authorize, then search for prescriptions
+//        smart.authProperties.granularity = .tokenOnly
         smart.authorize() { patient, error in
-            if nil != error || nil == patient {
+            if nil != error {
                 // report error
             }
             else {
-                MedicationRequest.search(["patient": patient!.id])
-                    .perform(self.smart.server) { bundle, error in
-                        if nil != error {
-                            // report error
-                        }
-                        else {
-                            var meds = bundle?.entry?
-                                .filter() { return $0.resource is MedicationRequest }
-                                .map() { return $0.resource as! MedicationRequest }
-                            
-                            // now `meds` holds all the patient's orders (or is nil)
-                        }
+                let url = Bundle.main.url(forResource: "Patient", withExtension: "json")!
+                do {
+                    let data = try Data(contentsOf: url)
+                    let json = try JSONSerialization.jsonObject(with: data) as! FHIRJSON
+                    
+                    let newPatient = try Patient(json: json)
+                    newPatient.create(self.smart.server) { error in
+                        // check error
+                    }
                 }
+                catch {
+                    // report error
+                }
+                
             }
         }
         return true
