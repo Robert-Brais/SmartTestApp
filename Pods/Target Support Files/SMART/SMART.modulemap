@@ -1,6 +1,0 @@
-framework module SMART {
-  umbrella header "SMART-umbrella.h"
-
-  export *
-  module * { export * }
-}
